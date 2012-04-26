@@ -45,6 +45,22 @@ buster.testCase('latr/poll', {
 		delay(100).then(p.cancel);
 	},
 
+	'should poll with interval function': function(done) {
+		var abort, interval, undef;
+
+		abort = false;
+		interval = this.spy(function(prevInterval) { abort = !!prevInterval; return 10; });
+		poll(function() { return abort }, interval, function(result) { return !!result; }).then(
+			function(result) {
+				assert(interval.withArgs(undef).calledOnce);
+				assert(interval.withArgs(10).calledOnce);
+				assert(interval.calledTwice);
+				done();
+			},
+			failIfCalled(done, "should never be rejected")
+		);
+	},
+
 	'should be canceled by rejected work': function(done) {
 		var p = poll(rejected, 10);
 
