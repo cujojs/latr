@@ -15,10 +15,10 @@ define(['when', 'when/cancelable', 'when/delay'], function(when, cancelable, del
 
     function F() {}
     function beget(p) {
-        F.prototype = p;
-        var newPromise = new F();
-        F.prototype = null;
-        return newPromise;
+        F.prototype = p;
+        var newPromise = new F();
+        F.prototype = null;
+        return newPromise;
     }
 
     /**
@@ -51,7 +51,7 @@ define(['when', 'when/cancelable', 'when/delay'], function(when, cancelable, del
      * poll(doSomething, 1000, anyFunc, true);
      *
      * @param work {Function} - function that is executed after every timeout
-     * @param msec {Number} - timeout in milliseconds
+     * @param interval {Number|Function} - timeout in milliseconds
      * @param [verifier] {Function} - function to evaluate the result of the
      *     vote.  May return a {Promise} or a {Boolean}.  Rejecting the promise
      *     or a falsey value will schedule the next vote.
@@ -60,19 +60,26 @@ define(['when', 'when/cancelable', 'when/delay'], function(when, cancelable, del
      *
      * @returns {Promise}
      */
-    return function poll(work, msec, verifier, delayed) {
-        var deferred, canceled;
+    return function poll(work, interval, verifier, delayed) {
+        var deferred, canceled, prevInterval;
 
         canceled = false;
         deferred = cancelable(when.defer(), function() { canceled = true; });
         verifier = verifier || function() { return false; };
+
+        if (typeof interval !== 'function') {
+            interval = (function(interval) {
+                return function() { return interval };
+            })(interval);
+        }
 
         function certify(result) {
             deferred.resolve(result);
         }
 
         function schedule(result) {
-            delay(msec).then(vote);
+            prevInterval = interval(prevInterval);
+            delay(prevInterval).then(vote);
             if (result !== undef) {
                 deferred.progress(result);
             }
