@@ -30,7 +30,7 @@
     },
     "main": "./latr",
     "directories": {
-        "lib": "./"
+        "test": "test"
     },
     "scripts": {
         "test": "buster test -e node"
