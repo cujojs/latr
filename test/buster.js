@@ -1,4 +1,4 @@
 exports['latr:node'] = {
-    environment: 'node',
+    env: 'node',
     tests: [ '*.js' ]
 };
