@@ -23,10 +23,10 @@
         }
     ],
     "dependencies": {
-        "when": "https://github.com/cujojs/when/tarball/dev"
+        "when": "~1"
     },
     "devDependencies": {
-        "buster": "~0.4"
+        "buster": ""
     },
     "main": "./latr",
     "directories": {
