@@ -2,7 +2,7 @@
     "name": "latr",
     "version": "0.0.1",
     "description": "Async goodies based on when() and lightweight Promises.",
-    "keywords": ["promises", "when", "async", "latr"],
+    "keywords": ["promises", "when", "async", "latr", "poll"],
     "licenses": [
         {
             "type": "MIT",
@@ -26,13 +26,13 @@
         "when": "~1"
     },
     "devDependencies": {
-        "buster": ""
+        "curl": "https://github.com/cujojs/curl/tarball/0.7.2",
+        "buster": "",
+        "jshint": ""
     },
     "main": "./latr",
-    "directories": {
-        "test": "test"
-    },
     "scripts": {
-        "test": "buster test -e node"
+        "test": "jshint *.js test && buster test -e node --color none --reporter specification",
+        "start": "buster static -e browser"
     }
 }
