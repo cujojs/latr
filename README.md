@@ -1,6 +1,1 @@
-latr
-====
-
-[![Build Status](https://secure.travis-ci.org/cujojs/latr.png?branch=master)](http://travis-ci.org/cujojs/latr)
-
-Higher order functions built on top of when.js and asynchronous Promises.
+# This project has been merged into [cujojs/when](https://github.com/cujojs/when).
